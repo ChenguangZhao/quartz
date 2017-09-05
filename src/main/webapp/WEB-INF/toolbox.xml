@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tools>
+    <toolbox scope="session">
+        <tool key="map" class="java.util.HashMap"/>
+    </toolbox>
+    <tool>
+        <key>cookieTool</key>
+        <scope>request</scope>
+        <class>org.apache.velocity.tools.view.tools.CookieTool</class>
+    </tool>
+</tools>

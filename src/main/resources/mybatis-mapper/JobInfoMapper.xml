@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alibaba.monitor.quartz.dao.JobInfoDao">
+
+
+    <insert id="insert"
+            parameterType="com.alibaba.monitor.quartz.pojos.dataobject.JobInfoDO">
+        insert into job_info (name,description,cron_expression)
+        value
+        (#{name},#{description},#{cronExpression})
+    </insert>
+
+    <select id="selectList" resultMap="JobMap">
+        select i.id as id,i.name as name,i.description as description,i.cron_expression as cronExpression,i.gmt_create as gmtCreate,i.gmt_modified as gmtModified,t.NEXT_FIRE_TIME as nextFireTime,t.PREV_FIRE_TIME as prevFireTime,t.TRIGGER_STATE as triggerState
+        from job_info i,QRTZ_TRIGGERS t
+        where t.JOB_NAME = i.name
+        and i.is_deleted=0
+    </select>
+
+    <resultMap id="JobMap" type="com.alibaba.monitor.quartz.pojos.dataobject.JobInfoDO">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="cron_expression" property="cronExpression"/>
+        <result column="description" property="description"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="NEXT_FIRE_TIME" property="nextFireTime"/>
+        <result column="PREV_FIRE_TIME" property="prevFireTime"/>
+        <result column="TRIGGER_STATE" property="triggerState"/>
+    </resultMap>
+
+    <update id="update" parameterType="com.alibaba.monitor.quartz.pojos.dataobject.JobInfoDO">
+        update job_info set description=#{description},cron_expression=#{cronExpression} where name=#{name}
+    </update>
+</mapper>
